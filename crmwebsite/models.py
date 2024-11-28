@@ -2,9 +2,11 @@ from django.db import models
 
 class Instructor(models.Model):
 	created_at = models.DateTimeField(auto_now_add=True)
+	honorary_title = models.CharField(max_length=20)
 	first_name = models.CharField(max_length=50)
 	middle_name = models.CharField(max_length=50)
 	last_name = models.CharField(max_length=50)
+	suffix = models.CharField(max_length=20)
 	batch = models.CharField(max_length=50)
 	undergrad_course = models.CharField(max_length=100)
 	undergrad_school = models.CharField(max_length=100)

@@ -19,6 +19,8 @@ class Migration(migrations.Migration):
                 ('first_name', models.CharField(max_length=50)),
                 ('middle_name', models.CharField(max_length=50)),
                 ('last_name', models.CharField(max_length=50)),
+                ('honorary_title', models.CharField(max_length=50)),
+                ('suffix', models.CharField(max_length=50)),
                 ('batch', models.CharField(max_length=50)),
                 ('undergrad_course', models.CharField(max_length=100)),
                 ('undergrad_school', models.CharField(max_length=100)),
