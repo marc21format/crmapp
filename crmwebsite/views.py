@@ -2,10 +2,13 @@ from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from .forms import SignUpForm
-
+from .models import Instructor
 
 def home(request):
-	
+	instructors = Instructor.objects.all()
+
+
+
 	if request.method == 'POST':
 		username = request.POST['username']
 		password = request.POST['password']
@@ -20,7 +23,7 @@ def home(request):
 			return redirect('home')
 
 	else:
-		return render(request, 'home.html', {})
+		return render(request, 'home.html', {'instructors':instructors})
 
 def logout_user(request):
 		logout(request)

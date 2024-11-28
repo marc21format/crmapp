@@ -2,18 +2,64 @@
 
 {% block content %}
 
-<div class="col-md-6 offset-md-3">
-
 {% if user.is_authenticated %}
 
-<h1>Login</h1>
+<h1>Instructor Roster</h1>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Name</th>
+      <th scope="col">Batch</th>
+      <th scope="col">Undergraduate Course</th>
+      <th scope="col">Undergraduate School</th>
+      <th scope="col">Undergraduate Award</th>
+      <th scope="col">Undergraduate Scholarship</th>
+      <th scope="col">Post-Graduate Course</th>
+      <th scope="col">Post-Graduate School</th>
+      <th scope="col">Post-Graduate Award</th>
+      <th scope="col">Post-Graduate Scholarship</th>
+      <th scope="col">Other Achievments</th>
+      <th scope="col">Status</th>
+      <th scope="col">ID</th>
+    </tr>
+  </thead>
+  <tbody>
+
+{% if instructors %}
+  {% for instructor in instructors %}
+     <tr>
+         <td> {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}</td>
+         <td>{{ instructor.batch }}</td>
+         <td>{{ instructor.undergrad_course }}</td>
+         <td>{{ instructor.undergrad_school }}</td>
+         <td>{{ instructor.undergrad_award }}</td>
+         <td>{{ instructor.undergrad_scholarship }}</td>
+         <td>{{ instructor.postgrad_course }}</td>
+         <td>{{ instructor.postgrad_school }}</td>
+         <td>{{ instructor.postgrad_award }}</td>
+         <td>{{ instructor.postgrad_scholarship }}</td>
+         <td>{{ instructor.other_achievments }}</td>
+         <td>{{ instructor.status }}</td>
+         <td>{{ instructor.id }}</td>
+     </tr>
+  {% endfor %}
+
+{% endif %}
+
+  </tbody>
+</table>
 
 {% else %}
+
+
+<div class="col-md-6 offset-md-3">
+<h1>Login</h1>
 <br/>
 
 <form method="POST" action="{% url 'home' %}">
 	{% csrf_token %}
-<form>
+
   <div class="mb-3">
     <input type="text" class="form-control" name="username", placeholder="Username" required>
 
@@ -23,12 +69,8 @@
   </div>
   <br/>
   <button type="submit" class="btn btn-secondary">Login</button>
-</form>
 
 </form>
-
-
-</div>
 
 {% endif %}
 
