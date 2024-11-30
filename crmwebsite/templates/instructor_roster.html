@@ -27,7 +27,17 @@
     {% if instructors %}
       {% for instructor in instructors %}
       <tr>
-        <td>{{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}</td>
+        <td>
+          {% if instructor.honorary_title and instructor.suffix %}
+            {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
+          {% else %}
+            {{ instructor.first_name }}
+            {% if instructor.middle_name %}
+              {{ instructor.middle_name }}
+            {% endif %}
+            {{ instructor.last_name }}
+          {% endif %}
+        </td>
         <td>{{ instructor.batch }}</td>
         <td>{{ instructor.undergrad_course }}</td>
         <td>{{ instructor.undergrad_school }}</td>
@@ -47,6 +57,7 @@
   </tbody>
 </table>
 
+<a href="{% url 'add_instructor' %}" class="btn btn-primary">Add Instructor</a>
 <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
 
 {% endblock %}

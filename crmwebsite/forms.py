@@ -1,6 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from django import forms
+from .models import Instructor
 
 class SignUpForm(UserCreationForm):
 	email = forms.EmailField(label="", widget=forms.TextInput(attrs={'class':'form-control', 'placeholder':'Email Address'}))
@@ -28,3 +29,104 @@ class SignUpForm(UserCreationForm):
 		self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 		self.fields['password2'].label = ''
 		self.fields['password2'].help_text = '<span class="form-text text-muted"><small>Enter the same password as before, for verification.</small></span>'	
+
+class AddInstructorForm(forms.ModelForm):
+
+    first_name = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"First Name", "class":"form-control"}), 
+        label="First Name"
+    )
+    middle_name = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"Middle Name", "class":"form-control"}), 
+        label="Middle Name"
+    )
+    last_name = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"Last Name", "class":"form-control"}), 
+        label="Last Name"
+    )
+    honorary_title = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. Atty.", "class":"form-control"}), 
+        label="Honorary Title"
+    )
+    suffix = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. Jr., RL", "class":"form-control"}), 
+        label="Suffix"
+    )
+    
+    batch = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"FCEER Batch #", "class":"form-control"}), 
+        label="FCEER Batch"
+    )
+    email = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"Email", "class":"form-control"}), 
+        label="Email"
+    )
+    undergrad_course = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. B Library and Information Science", "class":"form-control"}), 
+        label="Undergraduate Course"
+    )
+    undergrad_school = forms.CharField(
+        required=True, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. University of The Philippines - Diliman, School of Library and Information Sciences", "class":"form-control"}), 
+        label="Undergraduate School"
+    )
+    undergrad_award = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. Summa Cum Laude", "class":"form-control"}), 
+        label="Undergraduate Award"
+    )
+    undergrad_scholarship = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. DOST Undergraduate Scholarship Program", "class":"form-control"}), 
+        label="Undergraduate Scholarship"
+    )
+    postgrad_course = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. Juris Doctor", "class":"form-control"}), 
+        label="Postgraduate Course"
+    )
+    postgrad_school = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. University of The Philippines - Diliman, College of Law", "class":"form-control"}), 
+        label="Postgraduate School"
+    )
+    postgrad_award = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. Summa Cum Laude", "class":"form-control"}), 
+        label="Postgraduate Award"
+    )
+    postgrad_scholarship = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"e.g. UP College of Law Scholarship Program", "class":"form-control"}), 
+        label="Postgraduate Scholarship"
+    )
+
+    other_achievments = forms.CharField(
+        required=False, 
+        widget=forms.widgets.TextInput(attrs={"placeholder":"List of Achievments", "class":"form-control"}), 
+        label="Other Achievments"
+
+    )
+    profile_image = forms.ImageField(
+        required=True, 
+        widget=forms.widgets.FileInput(attrs={"class":"form-control"}), 
+        label="Profile Image"
+    )
+    status = forms.ChoiceField(
+        required=True,
+        choices=[('active', 'Active'), ('inactive', 'Inactive')],
+        widget=forms.widgets.Select(attrs={"class":"form-control"}),
+        label="Status"
+    )
+
+    class Meta:
+        model = Instructor
+        exclude = ("user",)

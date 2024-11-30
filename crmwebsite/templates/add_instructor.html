@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block content %}
+
+<div class="col-md-6 offset-md-3">
+<h1>Add Instructor</h1>
+	<p>Leave blank if field is not applicable.</p>
+<br/>
+
+<form method="POST" action="{% url 'add_instructor' %}">
+	{% csrf_token %}
+
+	{{ form.as_p }}
+
+<br/>
+  <button type="submit" class="btn btn-secondary">Add Instructor</button>
+   <a href="{% url 'instructor_roster' %}" class="btn btn-secondary">Back</a>
+
+</form>
+
+</div>
+
+{% endblock %}

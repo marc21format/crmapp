@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, AddInstructorForm
 from .models import Instructor
 
 def home(request):
@@ -60,3 +60,47 @@ def instructor_details(request, pk):
     else:
         messages.error(request, "You must be logged in to view this page.")
         return redirect('home')
+
+def delete_instructor(request, pk):
+    if request.user.is_authenticated:
+        delete_it = Instructor.objects.get(id=pk)
+        delete_it.delete()
+        messages.success(request, "Instructor Deleted Successfully")
+        return redirect('instructor_roster')
+    else:
+        messages.success(request, "You Must Be Logged In To Do That")
+        return redirect('home')
+
+def add_instructor(request):
+    if request.method == 'POST':
+        form = AddInstructorForm(request.POST or None)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Instructor Has Been Added Successfully.")
+            return redirect('instructor_roster')  # Redirect after successful submission
+    else:
+        form = AddInstructorForm()
+
+    return render(request, 'add_instructor.html', {'form': form})
+
+def update_instructor(request, pk):
+    if request.user.is_authenticated:
+        # Get the current instructor using the primary key (pk)
+        current_instructor = Instructor.objects.get(id=pk)
+        
+        # Initialize the form with the current instructor's data
+        form = AddInstructorForm(request.POST or None, instance=current_instructor)
+        
+        # Check if the form is valid
+        if form.is_valid():
+            # Save the updated form data
+            form.save()
+            messages.success(request, "Instructor Has Been Updated Successfully.")
+            return redirect('instructor_roster')  # Redirect to the instructor roster page
+
+        # Render the form for the user to update
+        return render(request, 'update_instructor.html', {'form': form})
+    
+    else:
+        messages.error(request, "You Must Be Logged In To Do That")
+        return redirect('home')  # Redirect to the home page if the user is not logged in
