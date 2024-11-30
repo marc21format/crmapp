@@ -6,8 +6,8 @@
 
 <h1>Instructor Roster</h1>
 
-<table class="table table-striped">
-  <thead>
+<table class="table table-striped table-hover table-bordered">
+  <thead class ="table-dark">
     <tr>
       <th scope="col">Name</th>
       <th scope="col">Batch</th>
@@ -41,7 +41,7 @@
          <td>{{ instructor.postgrad_scholarship }}</td>
          <td>{{ instructor.other_achievments }}</td>
          <td>{{ instructor.status }}</td>
-         <td>{{ instructor.id }}</td>
+         <td><a href="{% url 'instructor' instructor.id %}">{{ instructor.id }}</a></td>
      </tr>
   {% endfor %}
 

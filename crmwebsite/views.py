@@ -48,3 +48,14 @@ def register_user(request):
 			return render(request, 'register.html', {'form':form})
 
 	return render(request, 'register.html', {'form':form})
+
+
+
+def instructor_roster(request, pk):
+	if request.user.is_authenticated:
+		# Look Up Records
+		instructor_roster = Instructor.objects.get(id=pk)
+		return render(request, 'instructor.html', {'instructor_roster':instructor_roster})
+	else:
+		messages.success(request, "You Must Be Logged In To View That Page...")
+		return redirect('home')
