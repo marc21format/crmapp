@@ -5,57 +5,58 @@ from .forms import SignUpForm
 from .models import Instructor
 
 def home(request):
-	instructors = Instructor.objects.all()
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            return redirect('dashboard')
+        else:
+            return render(request, 'home.html', {'error': 'Invalid username or password'})
 
+    return render(request, 'home.html')
 
-
-	if request.method == 'POST':
-		username = request.POST['username']
-		password = request.POST['password']
-
-		user = authenticate(request, username=username, password=password)
-		if user is not None:
-			login(request, user)
-			messages.success(request, "You Have Been Logged login")
-			return redirect('home')
-		else:
-			messages.success(request, "There Was An Error Logging In.")
-			return redirect('home')
-
-	else:
-		return render(request, 'home.html', {'instructors':instructors})
+def dashboard(request):
+    if request.user.is_authenticated:
+        return render(request, 'dashboard.html')  # New template for logged-in users
+    else:
+        messages.error(request, "You must be logged in to access the dashboard.")
+        return redirect('home')
 
 def logout_user(request):
-		logout(request)
-		messages.success(request, "You Have Been Logged Out...")
-		return redirect('home')
+    logout(request)
+    messages.success(request, "You have been logged out.")
+    return redirect('home')
 
 def register_user(request):
-	if request.method == 'POST':
-		form = SignUpForm(request.POST)
-		if form.is_valid():
-			form.save()
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            form.save()
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password1']
+            user = authenticate(username=username, password=password)
+            login(request, user)
+            messages.success(request, "You have successfully registered!")
+            return redirect('dashboard')
+    else:
+        form = SignUpForm()
+    return render(request, 'register.html', {'form': form})
 
-			username = form.cleaned_data['username']
-			password = form.cleaned_data['password1']
-			user = authenticate(username=username, password=password)
-			login(request, user)
-			messages.success(request, "You Have Successfully Registered!")	
-			return redirect('home')
+# Instructor Roster (Separate Page)
+def instructor_roster(request):
+    if request.user.is_authenticated:
+        instructors = Instructor.objects.all()
+        return render(request, 'instructor_roster.html', {'instructors': instructors})
+    else:
+        messages.error(request, "You must be logged in to view the instructor roster.")
+        return redirect('home')
 
-	else:
-			form= SignUpForm()
-			return render(request, 'register.html', {'form':form})
-
-	return render(request, 'register.html', {'form':form})
-
-
-
-def instructor_roster(request, pk):
-	if request.user.is_authenticated:
-		# Look Up Records
-		instructor_roster = Instructor.objects.get(id=pk)
-		return render(request, 'instructor.html', {'instructor_roster':instructor_roster})
-	else:
-		messages.success(request, "You Must Be Logged In To View That Page...")
-		return redirect('home')
+def instructor_details(request, pk):
+    if request.user.is_authenticated:
+        instructor_details = Instructor.objects.get(id=pk)
+        return render(request, 'instructor.html', {'instructor_details': instructor_details})
+    else:
+        messages.error(request, "You must be logged in to view this page.")
+        return redirect('home')

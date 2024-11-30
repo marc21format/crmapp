@@ -18,6 +18,8 @@ class Instructor(models.Model):
 	postgrad_scholarship = models.CharField(max_length=100)
 	other_achievments = models.CharField(max_length=100)
 	status = models.CharField(max_length=50)
+	email = models.CharField(max_length=100, null=True, blank=True)
+	profile_image = models.ImageField(upload_to='profile_images/', null=True, blank=True)
 
 	def __str__(self):
 		return(f"{self.first_name} {self.last_name}")
