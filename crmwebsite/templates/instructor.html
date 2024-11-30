@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 
+{% load tz %}
+
 {% block title %}Instructor Details{% endblock %}
 
 {% block content %}
@@ -76,6 +78,10 @@
       <td>{{ instructor_details.status }}</td>
     </tr>
   </table>
+
+<p><strong>Created At:</strong> {{ instructor_details.created_at }}</p>
+<p><strong>Last Updated:</strong> {{ instructor_details.last_updated|localtime }}</p>
+<p><strong>Updated By:</strong> {{ instructor_details.updated_by.username }}</p>
 
   <div class="mt-3">
     <a href="{% url 'update_instructor' instructor_details.id %}" class="btn btn-danger">Update</a>

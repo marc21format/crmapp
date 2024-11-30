@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.utils import timezone
 from .forms import SignUpForm, AddInstructorForm
 from .models import Instructor
 
@@ -56,6 +57,7 @@ def instructor_roster(request):
 def instructor_details(request, pk):
     if request.user.is_authenticated:
         instructor_details = Instructor.objects.get(id=pk)
+        instructor_details.last_updated = timezone.localtime(instructor_details.last_updated)
         return render(request, 'instructor.html', {'instructor_details': instructor_details})
     else:
         messages.error(request, "You must be logged in to view this page.")
@@ -85,22 +87,17 @@ def add_instructor(request):
 
 def update_instructor(request, pk):
     if request.user.is_authenticated:
-        # Get the current instructor using the primary key (pk)
         current_instructor = Instructor.objects.get(id=pk)
-        
-        # Initialize the form with the current instructor's data
         form = AddInstructorForm(request.POST or None, instance=current_instructor)
-        
-        # Check if the form is valid
-        if form.is_valid():
-            # Save the updated form data
-            form.save()
-            messages.success(request, "Instructor Has Been Updated Successfully.")
-            return redirect('instructor_roster')  # Redirect to the instructor roster page
 
-        # Render the form for the user to update
+        if form.is_valid():
+            instructor = form.save(commit=False)  # Don't commit to DB yet
+            instructor.updated_by = request.user  # Set updated_by to the current logged-in user
+            instructor.save()  # Save the updated instructor
+            messages.success(request, "Instructor Has Been Updated Successfully.")
+            return redirect('instructor_roster')
+        
         return render(request, 'update_instructor.html', {'form': form})
-    
     else:
         messages.error(request, "You Must Be Logged In To Do That")
-        return redirect('home')  # Redirect to the home page if the user is not logged in
+        return redirect('home')

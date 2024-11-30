@@ -129,4 +129,4 @@ class AddInstructorForm(forms.ModelForm):
 
     class Meta:
         model = Instructor
-        exclude = ("user",)
+        exclude = ("user", "updated_by", "last_updated",)
