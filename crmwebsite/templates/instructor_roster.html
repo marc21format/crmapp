@@ -1,63 +1,95 @@
 {% extends 'base.html' %}
 
-{% block content %}
+{% block title %}Instructor Roster{% endblock %}
 
+{% block content %}
 <h1>Instructor Roster</h1>
 
-<table class="table table-striped table-hover table-bordered">
-  <thead class="table-dark">
-    <tr>
-      <th scope="col">Name</th>
-      <th scope="col">Batch</th>
-      <th scope="col">Undergraduate Course</th>
-      <th scope="col">Undergraduate School</th>
-      <th scope="col">Undergraduate Award</th>
-      <th scope="col">Undergraduate Scholarship</th>
-      <th scope="col">Post-Graduate Course</th>
-      <th scope="col">Post-Graduate School</th>
-      <th scope="col">Post-Graduate Award</th>
-      <th scope="col">Post-Graduate Scholarship</th>
-      <th scope="col">Other Achievements</th>
-      <th scope="col">Status</th>
-      <th scope="col">ID</th>
-    </tr>
-  </thead>
-  <tbody>
+<!-- Search form -->
+<form method="get" action="{% url 'instructor_roster' %}" class="mb-3">
+    <div class="input-group">
+        <!-- Select for search filter -->
+        <select name="filter" class="form-control">
+            <option value="all" {% if filter == all %}selected{% endif %}>All Fields</option>
+            <option value="first_name" {% if filter == first_name %}selected{% endif %}>First Name</option>
+            <option value="middle_name" {% if filter == middle_name %}selected{% endif %}>Middle Name</option>
+            <option value="last_name" {% if filter == last_name %}selected{% endif %}>Last Name</option>
+            <option value="batch" {% if filter == batch %}selected{% endif %}>Batch</option>
+            <option value="undergrad_school" {% if filter == undergrad_school %}selected{% endif %}>Undergraduate School</option>
+            <option value="postgrad_school" {% if filter == postgrad_school %}selected{% endif %}>Postgraduate School</option>
+            <option value="status" {% if filter == status %}selected{% endif %}>Status</option>
+            <option value="email" {% if filter == email %}selected{% endif %}>Email</option>
+            <option value="honorary_title" {% if filter == honorary_title %}selected{% endif %}>Honorary Title</option>
+            <option value="suffix" {% if filter == suffix %}selected{% endif %}>Suffix</option>
+            <option value="undergrad_course" {% if filter == undergrad_course %}selected{% endif %}>Undergraduate Course</option>
+            <option value="undergrad_award" {% if filter == undergrad_award %}selected{% endif %}>Undergraduate Award</option>
+            <option value="undergrad_scholarship" {% if filter == undergrad_scholarship %}selected{% endif %}>Undergraduate Scholarship</option>
+            <option value="postgrad_course" {% if filter == postgrad_course %}selected{% endif %}>Postgraduate Course</option>
+            <option value="postgrad_award" {% if filter == postgrad_award %}selected{% endif %}>Postgraduate Award</option>
+            <option value="postgrad_scholarship" {% if filter == postgrad_scholarship %}selected{% endif %}>Postgraduate Scholarship</option>
+            <option value="other_achievments" {% if filter == other_achievments %}selected{% endif %}>Other Achievements</option>
+        </select>
+        
+        <input
+            type="text"
+            name="search"
+            class="form-control"
+            placeholder="Search"
+            value="{{ query }}"
+        />
+        <button type="submit" class="btn btn-primary">Search</button>
+    </div>
+</form>
 
-    {% if instructors %}
-      {% for instructor in instructors %}
-      <tr>
-        <td>
-          {% if instructor.honorary_title and instructor.suffix %}
-            {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
-          {% else %}
-            {{ instructor.first_name }}
-            {% if instructor.middle_name %}
-              {{ instructor.middle_name }}
-            {% endif %}
-            {{ instructor.last_name }}
-          {% endif %}
-        </td>
-        <td>{{ instructor.batch }}</td>
-        <td>{{ instructor.undergrad_course }}</td>
-        <td>{{ instructor.undergrad_school }}</td>
-        <td>{{ instructor.undergrad_award }}</td>
-        <td>{{ instructor.undergrad_scholarship }}</td>
-        <td>{{ instructor.postgrad_course }}</td>
-        <td>{{ instructor.postgrad_school }}</td>
-        <td>{{ instructor.postgrad_award }}</td>
-        <td>{{ instructor.postgrad_scholarship }}</td>
-        <td>{{ instructor.other_achievments }}</td>
-        <td>{{ instructor.status }}</td>
-        <td><a href="{% url 'instructor' instructor.id %}">{{ instructor.id }}</a></td>
-      </tr>
-      {% endfor %}
-    {% endif %}
+<div class="container" style="width: 100%;">
+    <table class="table table-bordered" style="width: 100%;">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Batch</th>
+                <th>Undergraduate Studies</th>
+                <th>Postgraduate Studies</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for instructor in instructors %}
+            <tr>
+                <td>
+                    <a href="{% url 'instructor' pk=instructor.id %}" 
+                       style="color: #007bff; font-weight: bold; transition: color 0.3s, text-decoration 0.3s;">
+                        {{ instructor.id }}
+                    </a>
+                </td>
+                <td>
+                    {% if instructor.honorary_title and instructor.suffix %}
+                        {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
+                    {% else %}
+                        {{ instructor.first_name }}
+                        {% if instructor.middle_name %}
+                            {{ instructor.middle_name }}
+                        {% endif %}
+                        {{ instructor.last_name }}
+                    {% endif %}
+                </td>
+                <td>{{ instructor.batch }}</td>
+                <td>{{ instructor.undergrad_course }}, {{ instructor.undergrad_school }}</td>
+                <td>{{ instructor.postgrad_course }}, {{ instructor.postgrad_school }}</td>
+                <td>{{ instructor.status }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" class="text-center">No instructors found matching "{{ query }}".</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
 
-  </tbody>
-</table>
-
-<a href="{% url 'add_instructor' %}" class="btn btn-primary">Add Instructor</a>
-<a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+<div class="form-group">
+    <a href="{% url 'add_instructor' %}" class="btn btn-success">Add Instructor</a>
+</div>
 
 {% endblock %}
+

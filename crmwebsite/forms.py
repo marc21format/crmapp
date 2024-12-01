@@ -116,7 +116,7 @@ class AddInstructorForm(forms.ModelForm):
 
     )
     profile_image = forms.ImageField(
-        required=True, 
+        required=False, 
         widget=forms.widgets.FileInput(attrs={"class":"form-control"}), 
         label="Profile Image"
     )

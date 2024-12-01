@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.utils import timezone
 from .forms import SignUpForm, AddInstructorForm
 from .models import Instructor
+from django.db.models import Q
 
 def home(request):
     if request.method == 'POST':
@@ -45,14 +46,76 @@ def register_user(request):
         form = SignUpForm()
     return render(request, 'register.html', {'form': form})
 
-# Instructor Roster (Separate Page)
+from django.shortcuts import render
+from django.db.models import Q
+from .models import Instructor
+
 def instructor_roster(request):
-    if request.user.is_authenticated:
-        instructors = Instructor.objects.all()
-        return render(request, 'instructor_roster.html', {'instructors': instructors})
+    query = request.GET.get('search', '')
+    filter_by = request.GET.get('filter', 'all')  # Default to 'all' if no filter is selected
+
+    if filter_by == 'all' and query:
+        instructors = Instructor.objects.filter(
+            first_name__icontains=query) | Instructor.objects.filter(
+            middle_name__icontains=query) | Instructor.objects.filter(
+            last_name__icontains=query) | Instructor.objects.filter(
+            honorary_title__icontains=query) | Instructor.objects.filter(
+            suffix__icontains=query) | Instructor.objects.filter(
+            batch__icontains=query) | Instructor.objects.filter(
+            undergrad_course__icontains=query) | Instructor.objects.filter(
+            undergrad_school__icontains=query) | Instructor.objects.filter(
+            undergrad_award__icontains=query) | Instructor.objects.filter(
+            undergrad_scholarship__icontains=query) | Instructor.objects.filter(
+            postgrad_course__icontains=query) | Instructor.objects.filter(
+            postgrad_school__icontains=query) | Instructor.objects.filter(
+            postgrad_award__icontains=query) | Instructor.objects.filter(
+            postgrad_scholarship__icontains=query) | Instructor.objects.filter(
+            other_achievments__icontains=query) | Instructor.objects.filter(
+            status__icontains=query) | Instructor.objects.filter(
+            email__icontains=query)
+    
+    elif filter_by == 'first_name' and query:
+        instructors = Instructor.objects.filter(first_name__icontains=query)
+    elif filter_by == 'middle_name' and query:
+        instructors = Instructor.objects.filter(middle_name__icontains=query)
+    elif filter_by == 'last_name' and query:
+        instructors = Instructor.objects.filter(last_name__icontains=query)
+    elif filter_by == 'honorary_title' and query:
+        instructors = Instructor.objects.filter(honorary_title__icontains=query)
+    elif filter_by == 'suffix' and query:
+        instructors = Instructor.objects.filter(suffix__icontains=query)
+    elif filter_by == 'batch' and query:
+        instructors = Instructor.objects.filter(batch__icontains=query)
+    elif filter_by == 'undergrad_course' and query:
+        instructors = Instructor.objects.filter(undergrad_course__icontains=query)
+    elif filter_by == 'undergrad_school' and query:
+        instructors = Instructor.objects.filter(undergrad_school__icontains=query)
+    elif filter_by == 'undergrad_award' and query:
+        instructors = Instructor.objects.filter(undergrad_award__icontains=query)
+    elif filter_by == 'undergrad_scholarship' and query:
+        instructors = Instructor.objects.filter(undergrad_scholarship__icontains=query)
+    elif filter_by == 'postgrad_course' and query:
+        instructors = Instructor.objects.filter(postgrad_course__icontains=query)
+    elif filter_by == 'postgrad_school' and query:
+        instructors = Instructor.objects.filter(postgrad_school__icontains=query)
+    elif filter_by == 'postgrad_award' and query:
+        instructors = Instructor.objects.filter(postgrad_award__icontains=query)
+    elif filter_by == 'postgrad_scholarship' and query:
+        instructors = Instructor.objects.filter(postgrad_scholarship__icontains=query)
+    elif filter_by == 'other_achievments' and query:
+        instructors = Instructor.objects.filter(other_achievments__icontains=query)
+    elif filter_by == 'status' and query:
+        instructors = Instructor.objects.filter(status__icontains=query)
+    elif filter_by == 'email' and query:
+        instructors = Instructor.objects.filter(email__icontains=query)
     else:
-        messages.error(request, "You must be logged in to view the instructor roster.")
-        return redirect('home')
+        instructors = Instructor.objects.all()
+
+    return render(request, 'instructor_roster.html', {
+        'instructors': instructors,
+        'query': query,
+        'filter': filter_by,
+    })
 
 def instructor_details(request, pk):
     if request.user.is_authenticated:
