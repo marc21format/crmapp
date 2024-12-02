@@ -63,15 +63,19 @@
                     </a>
                 </td>
                 <td>
-                    {% if instructor.honorary_title and instructor.suffix %}
-                        {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
-                    {% else %}
-                        {{ instructor.first_name }}
-                        {% if instructor.middle_name %}
-                            {{ instructor.middle_name }}
-                        {% endif %}
-                        {{ instructor.last_name }}
+                {% if instructor.honorary_title and instructor.suffix %}
+                    {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
+                {% elif instructor.honorary_title %}
+                    {{ instructor.honorary_title }} {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}
+                {% elif instructor.suffix %}
+                    {{ instructor.first_name }} {{ instructor.middle_name }} {{ instructor.last_name }}, {{ instructor.suffix }}
+                {% else %}
+                    {{ instructor.first_name }}
+                    {% if instructor.middle_name %}
+                        {{ instructor.middle_name }}
                     {% endif %}
+                    {{ instructor.last_name }}
+                {% endif %}
                 </td>
                 <td>{{ instructor.batch }}</td>
                 <td>{{ instructor.undergrad_course }}, {{ instructor.undergrad_school }}</td>

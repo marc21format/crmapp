@@ -85,7 +85,9 @@
 
   <div class="mt-3">
     <a href="{% url 'update_instructor' instructor_details.id %}" class="btn btn-danger">Update</a>
-    <a href="{% url 'delete_instructor' instructor_details.id %}" class="btn btn-danger">Delete</a>
+    <a href="{% url 'confirm_delete_instructor' instructor_details.id %}" class="btn btn-danger">
+       Delete
+    </a>
     <a href="{% url 'instructor_roster' %}" class="btn btn-secondary">Back to Instructor Roster</a>
     <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
   </div>

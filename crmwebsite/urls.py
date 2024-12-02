@@ -13,5 +13,5 @@ urlpatterns = [
     path('delete_instructor/<int:pk>/', views.delete_instructor, name='delete_instructor'),  
     path('update_instructor/<int:pk>/', views.update_instructor, name='update_instructor'),  
     path('add_instructor/', views.add_instructor, name='add_instructor'), 
-    #path('instructor/<int:pk>/', views.instructor_details, name='instructor'),  
+    path('instructor/<int:pk>/confirm_delete/', views.confirm_delete_instructor, name='confirm_delete_instructor'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

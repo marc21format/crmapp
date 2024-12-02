@@ -122,7 +122,7 @@ class AddInstructorForm(forms.ModelForm):
     )
     status = forms.ChoiceField(
         required=True,
-        choices=[('active', 'Active'), ('inactive', 'Inactive')],
+        choices=[('Active', 'active'), ('Inactive', 'inactive')],
         widget=forms.widgets.Select(attrs={"class":"form-control"}),
         label="Status"
     )

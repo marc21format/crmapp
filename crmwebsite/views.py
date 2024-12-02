@@ -5,6 +5,7 @@ from django.utils import timezone
 from .forms import SignUpForm, AddInstructorForm
 from .models import Instructor
 from django.db.models import Q
+from django.shortcuts import get_object_or_404, redirect, render
 
 def home(request):
     if request.method == 'POST':
@@ -164,3 +165,13 @@ def update_instructor(request, pk):
     else:
         messages.error(request, "You Must Be Logged In To Do That")
         return redirect('home')
+
+def confirm_delete_instructor(request, pk):
+    instructor = get_object_or_404(Instructor, id=pk)
+    
+    if request.method == 'POST':
+        instructor.delete()
+        messages.success(request, "Instructor Deleted Successfully")
+        return redirect('instructor_roster')  # Redirect to the instructor list page
+    
+    return render(request, 'confirm_delete_instructor.html', {'instructor': instructor})
