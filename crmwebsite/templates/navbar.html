@@ -1,35 +1,74 @@
-<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <div class="container">
-            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="#">
-    <img class="logo" src="https://dl.imgdrop.io/file/aed8b140-8472-4813-922b-7ce35ef93c9e/2024/11/28/image_transparent_Craiyond84d4df786a179f1.png" width="50" height="50">
-  SJDM FCEER Guild
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-  </a>
-</nav>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Navbar with Hover Dropdown</title>
+  
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    .nav-item.dropdown:hover .dropdown-menu {
+      display: block;
+    }
+    .nav-item.dropdown .dropdown-toggle::after {
+      transition: transform 0.3s ease;
+    }
+    .nav-item.dropdown:hover .dropdown-toggle::after {
+      transform: rotate(180deg);
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+      
+      <a class="navbar-brand" href="#">
+        <img class="logo" src="https://dl.imgdrop.io/file/aed8b140-8472-4813-922b-7ce35ef93c9e/2024/11/28/image_transparent_Craiyond84d4df786a179f1.png" width="50" height="50" alt="Logo">
+        SJDM FCEER Guild
+      </a>
+      
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          {% if user.is_authenticated %}
+          </li>
+            <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
+          </li>
+          <li class="nav-item">
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="resourcesDropdown" role="button" aria-expanded="false">
+              Resources
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="resourcesDropdown">
+              <li><a class="dropdown-item" href="{% url 'instructor_roster' %}">Instructor Roster</a></li>
+              <li><a class="dropdown-item" href="#">Study Materials</a></li>
+              <li><a class="dropdown-item" href="#">Event Schedule</a></li>
+            </ul>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+          </li>
+          
 
-        {% if user.is_authenticated %}
 
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'logout' %}">Logout</a>
-        </li>
-
-        {% else %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'register' %}">
-          Register</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'home' %}">
-          Login</a>
-        </li>
-        {% endif %}
-
-      </ul>
+          {% else %}
+         
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'register' %}">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'home' %}">Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
     </div>
-  </div>
-</nav>  
+  </nav>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
