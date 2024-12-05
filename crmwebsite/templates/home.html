@@ -1,27 +1,80 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="container mt-5">
+  <div class="row">
+    <div class="col-md-6">
+      <h1 class="mb-4">About Us</h1>
+      
+      <!-- Carousel for sliding images -->
+      <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <a href="https://ibb.co/hYQ6KBp">
+              <img src="https://i.ibb.co/g4q2DSs/428699813-821071176727551-4903845799088484983-n.jpg" class="d-block w-100" alt="SJDM FCEER Guild">
+            </a>
+          </div>
+          <div class="carousel-item">
+            <a href="https://ibb.co/km2qswW"><img src="https://i.ibb.co/NT2WdJH/Untitled-design-7.png" alt="Untitled-design-7" border="0"></a>
+          </div>
+          <div class="carousel-item">
+            <a href="https://ibb.co/BntRFBQ"><img src="https://i.ibb.co/sW2rzqN/Untitled-design-8.png" alt="Untitled-design-8" border="0"></a>
+          </div>
+        </div>
+        <!-- Controls for navigating the carousel -->
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
 
-{% if user.is_authenticated %}
-  <p>You are logged in as {{ user.username }}.</p>
-  <a href="{% url 'dashboard' %}" class="btn btn-primary">Go to Dashboard</a>
-{% else %}
-  <div class="col-md-6 offset-md-3">
-    <h2>Login</h2>
-    <form method="POST" action="{% url 'home' %}">
-      {% csrf_token %}
-      <div class="mb-3">
-        <input type="text" class="form-control" name="username" placeholder="Username" required>
+      <p class="text-justify mt-3">
+        Welcome to <strong>SJDM FCEER Guild</strong>, a non-government, nonprofit volunteer organization that serves the unique needs of incoming grade 12 students in San Jose del Monte, Bulacan, in their preparations for college entrance examinations.
+      </p>
+      
+      <p class="text-justify">
+        Join us in creating brighter futures through education and opportunity.
+      </p>
+      
+      <p class="text-justify">
+        Servire et Inspire!
+      </p>
+    </div>
+    
+    <!-- Login Form Section -->
+    <div class="col-md-6 d-flex justify-content-center align-items-start" style="margin-top: 20px;">
+      <div class="card" style="width: 100%; max-width: 300px;">
+        <div class="card-body">
+          <h4 class="card-title text-center">Login to Account</h4>
+          <h6 class="mb-4" style="text-align: center; font-size: 13px; font-weight: normal;">Please enter your details.</h6>
+          
+          <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}
+            <div class="mb-2">
+              <input type="text" class="form-control" name="username" placeholder="Username" required>
+            </div>
+            <div class="mb-3">
+              <input type="password" class="form-control" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit" class="btn btn-secondary w-100">Login</button>
+          </form>
+          
+          <hr style="width: 100%; height: 2px; background-color: gray; border: none;">
+          
+          <p class="text-center" style="font-size: 14px;">
+            Don't have an account? <a href="{% url 'register' %}">Register here</a>.
+          </p>
+          
+          {% if error %}
+            <p class="text-danger mt-3 text-center">{{ error }}</p>
+          {% endif %}
+        </div>
       </div>
-      <div class="mb-3">
-        <input type="password" class="form-control" name="password" placeholder="Password" required>
-      </div>
-      <button type="submit" class="btn btn-secondary">Login</button>
-    </form>
-    {% if error %}
-      <p class="text-danger">{{ error }}</p>
-    {% endif %}
+    </div>
   </div>
-{% endif %}
-
+</div>
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>All Tasks Created by You</h1>
+
+    {% if is_admin %}
+        <h2>All Tasks</h2>
+        <h3>New Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks_new %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td><a href="{% url 'complete_task' task.id %}">Mark as Complete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Pending Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks_pending %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td><a href="{% url 'complete_task' task.id %}">Mark as Complete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Completed Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+            {% for task in tasks_completed %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% else %}
+        <h2>Your Tasks</h2>
+        <h3>New Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks_new %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td><a href="{% url 'complete_task' task.id %}">Mark as Complete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Pending Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Actions</th>
+            </tr>
+            {% for task in tasks_pending %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+                <td><a href="{% url 'complete_task' task.id %}">Mark as Complete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <h3>Completed Tasks</h3>
+        <table>
+            <tr>
+                <th>Title</th>
+                <th>Description</th>
+            </tr>
+            {% for task in tasks_completed %}
+            <tr>
+                <td>{{ task.title }}</td>
+                <td>{{ task.description }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+
+    <a href="{% url 'add_task' %}">Add New Task</a>
+{% endblock %}

@@ -26,7 +26,6 @@ class Instructor(models.Model):
     updated_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=False)
 
     def save(self, *args, **kwargs):
-        # Automatically set the 'updated_by' field when saving the object
         if not self.updated_by and hasattr(self, 'request') and self.request.user.is_authenticated:
             self.updated_by = self.request.user
         super(Instructor, self).save(*args, **kwargs)
