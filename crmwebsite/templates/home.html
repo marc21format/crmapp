@@ -3,12 +3,27 @@
 {% block content %}
 
   {% if not user.is_authenticated %}
-  <div class="container mt-5">
+
+  <!-- incorrect login update -->
+
+  		{% if error %}
+<div class="alert alert-danger alert-dismissible fade show" role="alert">
+  {{ error }}
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+
+			{% endif %}
+
+
+
+
+  <div class="container mt-2">
     <div class="row">
-      <div class="col-md-6">
+      <div class="col-md-5">
         <h1 class="mb-4">About Us</h1>
         
-        <!-- Carousel for sliding images -->
+         <!-- picture and text column -->
+
         <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
           <div class="carousel-inner">
             <div class="carousel-item active">
@@ -23,7 +38,7 @@
               <a href="https://ibb.co/BntRFBQ"><img src="https://i.ibb.co/sW2rzqN/Untitled-design-8.png" alt="Untitled-design-8" border="0"></a>
             </div>
           </div>
-          <!-- Controls for navigating the carousel -->
+
           <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
@@ -46,36 +61,38 @@
           Servire et Inspire!
         </p>
       </div>
-      
+
+ <!-- login form column -->
+
       <div class="col-md-6 d-flex justify-content-center align-items-start" style="margin-top: 20px;">
         <div class="card" style="width: 100%; max-width: 300px;">
           <div class="card-body">
             <h4 class="card-title text-center">Login to Account</h4>
             <h6 class="mb-4" style="text-align: center; font-size: 13px; font-weight: normal;">Please enter your account details.</h6>
             
+             <!-- login -->
+
             <form method="POST" action="{% url 'home' %}">
               {% csrf_token %}
               <div class="mb-2">
                 <input type="text" class="form-control" name="username" placeholder="Username" required>
               </div>
               <div class="mb-3">
-                <input type="password" class="form-control" name="password" placeholder="Password" required>
+                <div class="input-group">
+                  <input type="password" class="form-control" name="password" id="password" placeholder="Password" required>
+                  <span class="input-group-text" id="togglePassword">
+                    <i class="bi bi-eye"></i>
+                  </span>
+                </div>
               </div>
               <button type="submit" class="btn btn-secondary w-100">Login</button>
             </form>
-            
             <hr style="width: 100%; height: 2px; background-color: gray; border: none;">
             
             <p class="text-center" style="font-size: 14px;">
               Don't have an account? <a href="{% url 'register' %}">Register here</a>.
             </p>
-            
-            {% if error %}
-              <p class="text-danger mt-3 text-center">{{ error }}</p>
-            {% endif %}
-
-
-          </div>
+          </div>  
         </div>
       </div>
     </div>
@@ -83,56 +100,73 @@
 
   {% else %}
 
-  
-          <h1 class="text-center mb-4">About Us</h1>
-          
-          <!-- Carousel for sliding images -->
-            <div class="d-flex justify-content-center align-items-center">
-              <div id="carouselExampleAutoplaying" class="carousel slide" style="max-width: 50%;" data-bs-ride="carousel">
-                <div class="carousel-inner">
-                  <div class="carousel-item active">
-                    <a href="https://ibb.co/hYQ6KBp">
-                      <img src="https://i.ibb.co/g4q2DSs/428699813-821071176727551-4903845799088484983-n.jpg" class="d-block w-100" alt="SJDM FCEER Guild">
-                    </a>
-                  </div>
-                  <div class="carousel-item">
-                    <a href="https://ibb.co/km2qswW">
-                      <img src="https://i.ibb.co/NT2WdJH/Untitled-design-7.png" class="d-block w-100" border="0">
-                    </a>
-                  </div>
-                  <div class="carousel-item">
-                    <a href="https://ibb.co/BntRFBQ">
-                      <img src="https://i.ibb.co/sW2rzqN/Untitled-design-8.png" class="d-block w-100" border="0">
-                    </a>
-                  </div>
-                </div>
-                <!-- Controls for navigating the carousel -->
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-</div>
+<h1 class="text-center mb-4">About Us</h1>
+<div class="container mt-5">
+    <div class="row">
+      <div class="col-md-6">
+    
+        <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              <a href="https://ibb.co/hYQ6KBp">
+                <img src="https://i.ibb.co/g4q2DSs/428699813-821071176727551-4903845799088484983-n.jpg" class="d-block w-100" alt="SJDM FCEER Guild">
+              </a>
+            </div>
+            <div class="carousel-item">
+              <a href="https://ibb.co/km2qswW"><img src="https://i.ibb.co/NT2WdJH/Untitled-design-7.png" alt="Untitled-design-7" border="0"></a>
+            </div>
+            <div class="carousel-item">
+              <a href="https://ibb.co/BntRFBQ"><img src="https://i.ibb.co/sW2rzqN/Untitled-design-8.png" alt="Untitled-design-8" border="0"></a>
+            </div>
+          </div>
 
+          <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+      </div>
+      <div class="col-md-5" style="margin-top: 15px;">
+        <p class="text-right">
+          Welcome to <strong>SJDM FCEER Guild</strong>, a non-government, nonprofit volunteer organization that serves the unique needs of incoming grade 12 students in San Jose del Monte, Bulacan, in their preparations for college entrance examinations.
+        </p>
+        
+        <p class="text-justify">
+          Join us in creating brighter futures through education and opportunity.
+        </p>
+        
+        <p class="text-justify">
+          Servire et Inspire!
+        </p>
 
-          <p class="text-center mt-5">
-            Welcome to <strong>SJDM FCEER Guild</strong>, a non-government, nonprofit volunteer organization that serves the unique needs of incoming grade 12 students in San Jose del Monte, Bulacan, in their preparations for college entrance examinations.
-          </p>
-          
-          <p class="text-center">
-            Join us in creating brighter futures through education and opportunity.
-          </p>
-          
-          <p class="text-center">
-            Servire et Inspire!
-          </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
+      
 
   {% endif %}
 
+
+  <!-- show hide password -->
+
+  <script>
+    const togglePassword = document.querySelector("#togglePassword");
+    const passwordField = document.querySelector("#password");
+
+    togglePassword.addEventListener("click", function (e) {
+ 
+      const type = passwordField.getAttribute("type") === "password" ? "text" : "password";
+      passwordField.setAttribute("type", type);
+      
+      this.innerHTML = type === "password" ? '<i class="bi bi-eye"></i>' : '<i class="bi bi-eye-slash"></i>';
+    });
+  </script>
 
 {% endblock %}

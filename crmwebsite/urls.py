@@ -14,4 +14,4 @@ urlpatterns = [
     path('update_instructor/<int:pk>/', views.update_instructor, name='update_instructor'),  
     path('add_instructor/', views.add_instructor, name='add_instructor'), 
     path('instructor/<int:pk>/confirm_delete/', views.confirm_delete_instructor, name='confirm_delete_instructor'),
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT) #profile picture pero static at pang localhost lang       
